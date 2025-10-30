@@ -1,0 +1,865 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="A comprehensive handbook for software engineers covering essential tools and technologies.">
+      
+      
+      
+      
+        <link rel="prev" href="../celery/">
+      
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.22">
+    
+    
+      
+        <title>PostgreSQL - Software Engineer Handbook</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.84d31ad4.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="pink">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#postgresql-commands-cheat-sheet" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Software Engineer Handbook" class="md-header__button md-logo" aria-label="Software Engineer Handbook" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Software Engineer Handbook
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              PostgreSQL
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Software Engineer Handbook" class="md-nav__button md-logo" aria-label="Software Engineer Handbook" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Software Engineer Handbook
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../django/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Django
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pytest.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Pytest
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../celery/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Celery
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../redis.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Redis
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../rabbitmq.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    RabbitMQ
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../poetry.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Poetry
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    PostgreSQL
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    PostgreSQL
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#database-operations" class="md-nav__link">
+    <span class="md-ellipsis">
+      🧩️ Database Operations
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#database-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      💡 Database Management
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#table-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔧 Table Management
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#querying-modifying-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      🛠️ Querying &amp; Modifying Data
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#indexes-constraints" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔍 Indexes &amp; Constraints
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#users-permissions" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔑 Users &amp; Permissions
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#backup-restore" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔄 Backup &amp; Restore
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#utilities-debugging" class="md-nav__link">
+    <span class="md-ellipsis">
+      🧮 Utilities &amp; Debugging
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../docker.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Docker
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ci_cd.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    CI/CD
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../linux.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Linux
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../git.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Git
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#database-operations" class="md-nav__link">
+    <span class="md-ellipsis">
+      🧩️ Database Operations
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#database-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      💡 Database Management
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#table-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔧 Table Management
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#querying-modifying-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      🛠️ Querying &amp; Modifying Data
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#indexes-constraints" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔍 Indexes &amp; Constraints
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#users-permissions" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔑 Users &amp; Permissions
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#backup-restore" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔄 Backup &amp; Restore
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#utilities-debugging" class="md-nav__link">
+    <span class="md-ellipsis">
+      🧮 Utilities &amp; Debugging
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="postgresql-commands-cheat-sheet">⚙️ PostgresQL Commands Cheat Sheet<a class="headerlink" href="#postgresql-commands-cheat-sheet" title="Permanent link">&para;</a></h1>
+<blockquote>
+<p>Practical guide for most common and usefull commands for PostgresQL.</p>
+</blockquote>
+<hr />
+<h2 id="database-operations">🧩️ Database Operations<a class="headerlink" href="#database-operations" title="Permanent link">&para;</a></h2>
+<div class="codehilite"><pre><span></span><code>psql<span class="w"> </span>-U<span class="w"> </span>username<span class="w"> </span>-d<span class="w"> </span>dbname
+<span class="c1"># Connect to PostgreSQL database with a specific username and database.</span>
+
+psql<span class="w"> </span>-h<span class="w"> </span>localhost<span class="w"> </span>-U<span class="w"> </span>username<span class="w"> </span>-d<span class="w"> </span>dbname
+<span class="c1"># Connect to PostgreSQL on a specific host (e.g., localhost).</span>
+
+psql
+<span class="c1"># Connect to PostgreSQL as the default user and database.</span>
+</code></pre></div>
+
+<hr />
+<h2 id="database-management">💡 Database Management<a class="headerlink" href="#database-management" title="Permanent link">&para;</a></h2>
+<div class="codehilite"><pre><span></span><code>createdb<span class="w"> </span>dbname
+<span class="c1"># Create a new PostgreSQL database.</span>
+
+dropdb<span class="w"> </span>dbname
+<span class="c1"># Delete a PostgreSQL database.</span>
+
+list
+<span class="c1"># List all databases in PostgreSQL.</span>
+
+<span class="se">\l</span>
+<span class="c1"># Show list of all databases (inside psql shell).</span>
+
+<span class="se">\c</span><span class="w"> </span>dbname
+<span class="c1"># Connect to a specific database inside psql shell.</span>
+</code></pre></div>
+
+<h2 id="table-management">🔧 Table Management<a class="headerlink" href="#table-management" title="Permanent link">&para;</a></h2>
+<div class="codehilite"><pre><span></span><code>CREATE<span class="w"> </span>TABLE<span class="w"> </span>table_name<span class="w"> </span><span class="o">(</span>
+<span class="w">    </span>column_name<span class="w"> </span>column_type,
+<span class="w">    </span>...
+<span class="o">)</span><span class="p">;</span>
+<span class="c1"># Create a new table in PostgreSQL. Define column names and types (e.g., INTEGER, TEXT, DATE).</span>
+
+DROP<span class="w"> </span>TABLE<span class="w"> </span>table_name<span class="p">;</span>
+<span class="c1"># Drop a table in PostgreSQL (delete the table and all its data).</span>
+
+<span class="se">\d</span>t
+<span class="c1"># List all tables in the current database.</span>
+
+<span class="se">\d</span><span class="w"> </span>table_name
+<span class="c1"># Show the schema of a specific table, including columns, data types, and constraints.</span>
+</code></pre></div>
+
+<h2 id="querying-modifying-data">🛠️ Querying &amp; Modifying Data<a class="headerlink" href="#querying-modifying-data" title="Permanent link">&para;</a></h2>
+<div class="codehilite"><pre><span></span><code>SELECT<span class="w"> </span>*<span class="w"> </span>FROM<span class="w"> </span>table_name<span class="p">;</span>
+<span class="c1"># Retrieve all records from a table.</span>
+
+SELECT<span class="w"> </span>column_name<span class="w"> </span>FROM<span class="w"> </span>table_name<span class="p">;</span>
+<span class="c1"># Retrieve specific column(s) from a table.</span>
+
+INSERT<span class="w"> </span>INTO<span class="w"> </span>table_name<span class="w"> </span><span class="o">(</span>column1,<span class="w"> </span>column2,<span class="w"> </span>...<span class="o">)</span><span class="w"> </span>VALUES<span class="w"> </span><span class="o">(</span>value1,<span class="w"> </span>value2,<span class="w"> </span>...<span class="o">)</span><span class="p">;</span>
+<span class="c1"># Insert data into a table.</span>
+
+UPDATE<span class="w"> </span>table_name<span class="w"> </span>SET<span class="w"> </span><span class="nv">column_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>value<span class="w"> </span>WHERE<span class="w"> </span>condition<span class="p">;</span>
+<span class="c1"># Update data in a table.</span>
+
+DELETE<span class="w"> </span>FROM<span class="w"> </span>table_name<span class="w"> </span>WHERE<span class="w"> </span>condition<span class="p">;</span>
+<span class="c1"># Delete data from a table.</span>
+</code></pre></div>
+
+<h2 id="indexes-constraints">🔍 Indexes &amp; Constraints<a class="headerlink" href="#indexes-constraints" title="Permanent link">&para;</a></h2>
+<div class="codehilite"><pre><span></span><code>CREATE<span class="w"> </span>INDEX<span class="w"> </span>index_name<span class="w"> </span>ON<span class="w"> </span>table_name<span class="w"> </span><span class="o">(</span>column_name<span class="o">)</span><span class="p">;</span>
+<span class="c1"># Create an index on a specific column.</span>
+
+DROP<span class="w"> </span>INDEX<span class="w"> </span>index_name<span class="p">;</span>
+<span class="c1"># Drop an existing index.</span>
+
+ALTER<span class="w"> </span>TABLE<span class="w"> </span>table_name<span class="w"> </span>ADD<span class="w"> </span>CONSTRAINT<span class="w"> </span>constraint_name<span class="w"> </span>CHECK<span class="w"> </span><span class="o">(</span>condition<span class="o">)</span><span class="p">;</span>
+<span class="c1"># Add a constraint to a table.</span>
+
+<span class="se">\d</span>i
+<span class="c1"># List all indexes in the current database.</span>
+</code></pre></div>
+
+<h2 id="users-permissions">🔑 Users &amp; Permissions<a class="headerlink" href="#users-permissions" title="Permanent link">&para;</a></h2>
+<div class="codehilite"><pre><span></span><code>CREATE<span class="w"> </span>USER<span class="w"> </span>username<span class="w"> </span>WITH<span class="w"> </span>PASSWORD<span class="w"> </span><span class="s1">&#39;password&#39;</span><span class="p">;</span>
+<span class="c1"># Create a new user in PostgreSQL.</span>
+
+DROP<span class="w"> </span>USER<span class="w"> </span>username<span class="p">;</span>
+<span class="c1"># Delete a user.</span>
+
+GRANT<span class="w"> </span>ALL<span class="w"> </span>PRIVILEGES<span class="w"> </span>ON<span class="w"> </span>DATABASE<span class="w"> </span>dbname<span class="w"> </span>TO<span class="w"> </span>username<span class="p">;</span>
+<span class="c1"># Grant all privileges on a database to a user.</span>
+
+<span class="se">\d</span>u
+<span class="c1"># List all PostgreSQL roles (users).</span>
+</code></pre></div>
+
+<h2 id="backup-restore">🔄 Backup &amp; Restore<a class="headerlink" href="#backup-restore" title="Permanent link">&para;</a></h2>
+<div class="codehilite"><pre><span></span><code>pg_dump<span class="w"> </span>dbname<span class="w"> </span>&gt;<span class="w"> </span>backup.sql
+<span class="c1"># Dump the database into a SQL file (backup).</span>
+
+psql<span class="w"> </span>dbname<span class="w"> </span>&lt;<span class="w"> </span>backup.sql
+<span class="c1"># Restore the database from a SQL file.</span>
+
+pg_dump<span class="w"> </span>-U<span class="w"> </span>username<span class="w"> </span>-h<span class="w"> </span>localhost<span class="w"> </span>dbname<span class="w"> </span>&gt;<span class="w"> </span>backup.sql
+<span class="c1"># Dump a specific database from a specific host.</span>
+
+pg_restore<span class="w"> </span>-U<span class="w"> </span>username<span class="w"> </span>-d<span class="w"> </span>dbname<span class="w"> </span>backup.tar
+<span class="c1"># Restore from a binary backup (e.g., from .tar file).</span>
+</code></pre></div>
+
+<h2 id="utilities-debugging">🧮 Utilities &amp; Debugging<a class="headerlink" href="#utilities-debugging" title="Permanent link">&para;</a></h2>
+<div class="codehilite"><pre><span></span><code>EXPLAIN<span class="w"> </span>ANALYZE<span class="w"> </span>SELECT<span class="w"> </span>*<span class="w"> </span>FROM<span class="w"> </span>table_name<span class="p">;</span>
+<span class="c1"># Analyze the query execution plan.</span>
+
+<span class="se">\i</span><span class="w"> </span>path_to_file.sql
+<span class="c1"># Run an SQL script file inside the psql shell.</span>
+
+<span class="se">\q</span>
+<span class="c1"># Quit the psql shell.</span>
+</code></pre></div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+    
+  </body>
+</html>
